@@ -1,5 +1,7 @@
 package com.bizzan.bitrade.listener;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import javax.mail.internet.MimeMessage;
@@ -42,6 +44,10 @@ public class EurekaListener {
     @Value("${spark.system.admin-phones}")
     private String adminPhones;
 
+    /**
+     * 服务下线事件
+     * @param event
+     */
     @EventListener(condition = "#event.replication==false")
     public void listen(EurekaInstanceCanceledEvent event) {
         String msg = "您的服务" + event.getAppName() + "\n" + event.getServerId() + "已下线";
@@ -53,6 +59,10 @@ public class EurekaListener {
         }
     }
 
+    /**
+     * 服务注册事件
+     * @param event
+     */
     @EventListener(condition = "#event.replication==false")
     public void listen(EurekaInstanceRegisteredEvent event) {
         InstanceInfo instanceInfo = event.getInstanceInfo();
@@ -65,19 +75,32 @@ public class EurekaListener {
         }
     }
 
+    /**
+     * 服务续约事件
+     * @param event
+     */
     @EventListener
     public void listen(EurekaInstanceRenewedEvent event) {
-        log.info("【Eureka服务】{}进行续约", event.getServerId() + "  " + event.getAppName());
+        log.info("[{}] 服务[{}] 进行续约...", simpleDate("yyyy-MM-dd HH:mm:ss"),
+                event.getServerId() + "-" + event.getAppName());
     }
 
+    /**
+     * Eureka注册中心启动事件
+     * @param event
+     */
     @EventListener
     public void listen(EurekaRegistryAvailableEvent event) {
-        log.info("【Eureka注册中心】启动，Millis：{}", System.currentTimeMillis());
+        log.info("[{}] Eureka 注册中心 启动...", simpleDate("yyyy-MM-dd HH:mm:ss"));
     }
 
+    /**
+     * Eureka Server启动事件
+     * @param event
+     */
     @EventListener
     public void listen(EurekaServerStartedEvent event) {
-        log.info("【Eureka注册中心服务端】启动，Millis：{}", System.currentTimeMillis());
+        log.info("[{}] Eureka Server 启动...", simpleDate("yyyy-MM-dd HH:mm:ss"));
     }
 
     @Async
@@ -103,4 +126,10 @@ public class EurekaListener {
             e.printStackTrace();
         }
     }
+
+    public String simpleDate(String format) {
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        return sdf.format(new Date());
+    }
+
 }
