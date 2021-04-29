@@ -42,7 +42,10 @@ public class DemoController {
     @RequestMapping("/test")
     public void test(){
         String[] adminList = admins.split(",");
-        sendEmailMsg(adminList[0], "msg", "[服务]服务下线通知");
+        for (int i = 0; i < adminList.length; i++) {
+            sendEmailMsg(adminList[i], "msg", "[服务]服务下线通知");
+        }
+
     }
 
     @Async

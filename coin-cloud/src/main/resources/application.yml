@@ -19,7 +19,7 @@ spring:
     host: smtp.163.com
     port: 25
     username: killahadmin@163.com
-    password: VWVBYZVTKZGIXXMZ
+    password: XXXXXXX
     properties:
       mail:
         smtp:

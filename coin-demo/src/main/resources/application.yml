@@ -14,7 +14,7 @@ spring:
   mail:
     host: smtp.163.com
     username: killahadmin@163.com
-    password: VWVBYZVTKZGIXXMZ
+    password: XXXXXX
     properties:
       mail:
         smtp:
@@ -31,6 +31,6 @@ spark:
     host: smtp.163.com
     name: xxx
     #接收系统通知的邮箱，多个用,分割
-    admins: 443890800@qq.com
+    admins: 443890800@qq.com,309043911@qq.com
     #通知短信接收手机
     admin-phones: 15907660001
