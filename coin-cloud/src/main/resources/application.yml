@@ -1,0 +1,41 @@
+server:
+  port: 7001
+
+eureka:
+  instance:
+    #instance-id: ${spring.cloud.client.ipAddress}:${server.port}:
+    instance-id: cloud7001.com:${server.port}
+    hostname: cloud7001.com
+  client:
+    register-with-eureka: false #false 表示不向注册中心注册自己。
+    fetch-registry: false #false 表示自己端就是注册中心，我的职责就是维护服务实例，并不需要去检索服务
+    service-url:
+      #集群 defaultZone: http://cloud7002.com:7002/eureka/, http://cloud7003.com:7003/eureka/
+      #设置与Eureka Server交互的地址查询服务和注册服务都需要依赖这个地址（单机）
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+
+spring:
+  mail:
+    host: smtp.163.com
+    port: 25
+    username: killahadmin@163.com
+    password: VWVBYZVTKZGIXXMZ
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+
+#发送邮件使用
+spark:
+  system:
+    work-id: 1
+    data-center-id: 1
+    host: smtp.163.com
+    name: xxx
+    #接收系统通知的邮箱，多个用,分割
+    admins: 443890800@qq.com
+    #通知短信接收手机
+    admin-phones: 15907660001
