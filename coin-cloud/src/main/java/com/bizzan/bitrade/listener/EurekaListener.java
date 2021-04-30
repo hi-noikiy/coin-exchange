@@ -35,13 +35,13 @@ public class EurekaListener {
     @Value("${spring.mail.username}")
     private String from;
 
-    @Value("${spark.system.name}")
+    @Value("${system.company.name}")
     private String company;
 
-    @Value("${spark.system.admins}")
-    private String admins;
+    @Value("${system.notice.admin-mails}")
+    private String adminMails;
 
-    @Value("${spark.system.admin-phones}")
+    @Value("${system.notice.admin-mails}")
     private String adminPhones;
 
     /**
@@ -50,10 +50,11 @@ public class EurekaListener {
      */
     @EventListener(condition = "#event.replication==false")
     public void listen(EurekaInstanceCanceledEvent event) {
-        String msg = "您的服务" + event.getAppName() + "\n" + event.getServerId() + "已下线";
+
+        String msg = "您的服务【" + event.getAppName() + "\n" + event.getServerId() + "已下线";
         log.info(msg);
 
-        String[] adminList = admins.split(",");
+        String[] adminList = adminMails.split(",");
         for (int i = 0; i < adminList.length; i++) {
             sendEmailMsg(adminList[i], msg, "[服务]服务下线通知");
         }
@@ -65,11 +66,12 @@ public class EurekaListener {
      */
     @EventListener(condition = "#event.replication==false")
     public void listen(EurekaInstanceRegisteredEvent event) {
+
         InstanceInfo instanceInfo = event.getInstanceInfo();
         String msg = "服务" + instanceInfo.getAppName() + "\n" + instanceInfo.getHostName() + ":" + instanceInfo.getPort() + " \nip: " + instanceInfo.getIPAddr() + "进行注册";
         log.info(msg);
 
-        String[] adminList = admins.split(",");
+        String[] adminList = adminMails.split(",");
         for (int i = 0; i < adminList.length; i++) {
             sendEmailMsg(adminList[i], msg, "[服务]服务上线通知");
         }
@@ -127,6 +129,11 @@ public class EurekaListener {
         }
     }
 
+    /**
+     * 简单格式化时间
+     * @param format
+     * @return
+     */
     public String simpleDate(String format) {
         SimpleDateFormat sdf = new SimpleDateFormat(format);
         return sdf.format(new Date());

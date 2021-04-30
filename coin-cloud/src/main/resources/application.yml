@@ -15,11 +15,13 @@ eureka:
       defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
 
 spring:
+  freemarker:
+    prefer-file-system-access: false
   mail:
     host: smtp.163.com
     port: 25
     username: killahadmin@163.com
-    password: XXXXXXX
+    password: XXXXXX
     properties:
       mail:
         smtp:
@@ -28,14 +30,11 @@ spring:
             enable: true
             required: true
 
-#发送邮件使用
-spark:
-  system:
-    work-id: 1
-    data-center-id: 1
-    host: smtp.163.com
-    name: xxx
+system:
+  company:
+    name:
+  notice:
     #接收系统通知的邮箱，多个用,分割
-    admins: 443890800@qq.com
+    admin-mails: 123456@qq.com
     #通知短信接收手机
-    admin-phones: 15907660001
+    admin-phones:
